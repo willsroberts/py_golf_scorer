@@ -29,7 +29,7 @@ gaming for professional tournaments.
     3. `python <-i> score_updater.py "<google_doc_name>" '<golfer_1' 'golfer_2' 'golfer_3' 'golfer_4'`
     4. confirm scores updated where available in google doc
 
-#3 Considerations
+#3 Considerations:
 This library is dependent upon the leaderboard published on pgatour.com/leaderboard.html. Future iterations
 will plan for the ability of the user to specify which source they want to scrape from: pgatour.com/espn.go.com/
 in case of pgatour.com's leaderboard malfunction etc.
