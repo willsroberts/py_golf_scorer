@@ -16,18 +16,18 @@ gaming for professional tournaments.
 
 #2 Usage:
 1. Create google sheets doc
-⋅⋅1. Name google doc
-⋅⋅2. For net scoring
-⋅⋅⋅⋅1. Name sheet "Scores"
-⋅⋅⋅⋅2. Add golfers name in separate rows
-⋅⋅3. For best ball scoring
-⋅⋅⋅⋅1. Name sheets by round: "round_1","round_2", "round_3", "round_4"
-⋅⋅⋅⋅2. Add golfers names in separate rows
+  1. Name google doc
+  2. For net scoring
+    1. Name sheet "Scores"
+    2. Add golfers name in separate rows
+  3. For best ball scoring
+    1. Name sheets by round: "round_1","round_2", "round_3", "round_4"
+    2. Add golfers names in separate rows
 2. Command Line Steps
-⋅⋅1. `git clone`
-⋅⋅2. `cp <downloads>/client_secret.json ./config/`
-⋅⋅3. `python <-i> score_updater.py "<google_doc_name>" '<golfer_1' 'golfer_2' 'golfer_3' 'golfer_4'`
-⋅⋅4. confirm scores updated where available in google doc
+  1. `git clone`
+  2. `cp <downloads>/client_secret.json ./config/`
+  3. `python <-i> score_updater.py "<google_doc_name>" '<golfer_1' 'golfer_2' 'golfer_3' 'golfer_4'`
+  4. confirm scores updated where available in google doc
 
 #3 Considerations
 This library is dependent upon the leaderboard published on pgatour.com/leaderboard.html. Future iterations
