@@ -24,32 +24,23 @@ def get_player_list(p_list=[]):
 
 def build_player_scores_bestball(p_list, prsed_json):
     player_scores = {}
+    course_par = build_course_par(prsed_json)
     for plyer in prsed_json['leaderboard']['players']:
         player_nm = plyer['player_bio']['first_name'] + " " + plyer['player_bio']['last_name']
         if player_nm in p_list:
             player_scores[player_nm] = {'round_1':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 'round_2':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 'round_3':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 'round_4':[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
 
             day = date.today().weekday()
-            if day == 3:
+            if day in [3,4,5,6]:
                 i = 0
                 for hole in plyer['holes']:
-                    player_scores[player_nm]['round_1'][i] = hole['strokes']
+                    if hole['strokes']:
+                        # import ipdb; ipdb.set_trace()
+                        player_scores[player_nm]['round_'+str(day-2)][hole['course_hole_id']-1] = hole['strokes'] - hole['par']
+                    else:
+                        player_scores[player_nm]['round_'+str(day-2)][i] = ""
                     i += 1
-            if day == 4:
-                i = 0
-                for hole in plyer['holes']:
-                    player_scores[player_nm]['round_2'][i] = hole['strokes']
-                    i += 1
-            if day == 5:
-                i = 0
-                for hole in plyer['holes']:
-                    player_scores[player_nm]['round_3'][i] = hole['strokes']
-                    i += 1
-            if day == 6:
-                i = 0
-                for hole in plyer['holes']:
-                    player_scores[player_nm]['round_4'][i] = hole['strokes']
-                    i += 1
+        
     return player_scores
 
 def build_course_par(prsed_json):

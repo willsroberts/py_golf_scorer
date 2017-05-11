@@ -9,7 +9,8 @@ def get_player_locations(p_list,sheet):
     p_loc = {}
     for player in p_list:
         plz = sheet.findall(player)
-        p_loc[player] = (plz[0].row, plz[0].col)
+        #old (plz[0].row, plz[0].col)
+        p_loc[player] = plz
     return p_loc
 
 def update_day_net(p_list,p_locs,scores,sheet,day):
@@ -44,41 +45,46 @@ def update_board_bball(tourn_name, player_list, parsed_board):
     player_scores = score_builder.build_player_scores_bestball(p_list=player_list,prsed_json=parsed_board)
     update_day_bball(p_list=player_list, scores=player_scores, book=wbook, day=date.today().weekday())
 
-def update_row(sheet,loc,score_list):
-    i = loc[1]+1
+def update_row(sheet,cell,score_list):
+    i = cell.col + 1
     for hole in score_list:
-        sheet.update_cell(loc[0],i,hole)
+        sheet.update_cell(cell.row,i,hole)
         i += 1
-    print "ROW UPDATED ON {}".format(sheet)
+    print "ROW {} : {}{} UPDATED ON {}".format(cell.value, cell.row, cell.col, sheet)
 
 def update_day_bball(p_list,scores,book,day):
     if day == 3:
         sheet = book.worksheet("First Round")
         p_locs = get_player_locations(p_list,sheet)
         for p in p_list:
-            loc = p_locs[p]
-            update_row(sheet=sheet,loc=loc,score_list=scores[p]['round_1'])
+            locs = p_locs[p]
+            # import pdb; pdb.set_trace()
+            for loc in locs:
+                update_row(sheet=sheet,cell=loc,score_list=scores[p]['round_1'])
         print "DAY {} UPDATED: {}".format(day-2, date.today())
     if day == 4:
         sheet = book.worksheet("Second Round")
         p_locs = get_player_locations(p_list,sheet)
         for p in p_list:
-            loc = p_locs[p]
-            update_row(sheet=sheet,loc=loc,score_list=scores[p]['round_2'])
+            locs = p_locs[p]
+            for loc in locs:
+                update_row(sheet=sheet,cell=loc,score_list=scores[p]['round_2'])
         print "DAY {} UPDATED: {}".format(day-2, date.today())
     if day == 5:
         sheet = book.worksheet("Third Round")
         p_locs = get_player_locations(p_list,sheet)
         for p in p_list:
-            loc = p_locs[p]
-            update_row(sheet=sheet,loc=loc,score_list=scores[p]['round_3'])
+            locs = p_locs[p]
+            for loc in locs:
+                update_row(sheet=sheet,cell=loc,score_list=scores[p]['round_3'])
         print "DAY {} UPDATED: {}".format(day-2, date.today())
     if day == 6:
         sheet = book.worksheet("Final Round")
         p_locs = get_player_locations(p_list,sheet)
         for p in p_list:
-            loc = p_locs[p]
-            update_row(sheet=sheet,loc=loc,score_list=scores[p]['round_4'])
+            locs = p_locs[p]
+            for loc in locs:
+                update_row(sheet=sheet,cell=loc,score_list=scores[p]['round_4'])
         print "DAY {} UPDATED: {}".format(day-2, date.today())
 
 
@@ -99,7 +105,7 @@ def command_line_players():
 
 if __name__ == "__main__":
     current_milli_time = lambda: int(round(time.time() * 1000))
-    htm = "http://www.pgatour.com/data/r/041/2017/leaderboard-v2.json?ts=" + str(current_milli_time())
+    htm = "http://www.pgatour.com/data/r/011/2017/leaderboard-v2.json?ts=" + str(current_milli_time())
     parsed_board = score_builder.get_parse_leaderboard(htm)
     player_list = command_line_players()
 
